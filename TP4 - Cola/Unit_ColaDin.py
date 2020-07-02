@@ -165,7 +165,7 @@ def cola_ordenada():
             arribo(Caux, atencion(C))
         while not cola_vacia(Caux):
             arribo(C, atencion(Caux))
-    print('')
+    print()
     print('Cola ordenada:')
     barrido_cola(C)
 
@@ -205,7 +205,7 @@ def personajes_sw():
         arribo(C, [personaje[i], origen[i]])
     print('Personaje  |   Planeta de origen')
     barrido_cola(C)
-    print('')
+    print()
     while not cola_vacia(C):
         x = atencion(C)
         if x[1] == 'Alderaan' or x[1] == 'Endor' or x[1] == 'Tatooine':
@@ -223,10 +223,10 @@ def personajes_sw():
             if x[0] == 'Jar Jar Binks' and not cola_vacia(Caux):
                 atencion(Caux)
             arribo(C2, x)
-    print('')
+    print()
     print('Agregar personaje antes de Yoda')
     barrido_cola(C1)
-    print('')
+    print()
     print('Eliminar personaje despues de Jar Jar Binks')
     barrido_cola(C2)
 
@@ -245,7 +245,7 @@ def dos_colas():
     barrido_cola(C1)
     print('Cola 2')
     barrido_cola(C2)
-    print('')
+    print()
     for i in range(0, tamanio_cola(C1)):
         if en_frente(C1) < en_frente(C2):
             mover_final(C1)
@@ -313,7 +313,7 @@ def Haversine():
         arribo(C, [base[i], randint(10, 200), lat[i], lng[i]])
     print('Base | Tamanio de la flota | Latitud | Longitud')
     barrido_cola(C)
-    print('')
+    print()
     print('Coordenada actual:', round(q1, 6), ',', round(d1, 6))
     while not cola_vacia(C):
         x = atencion(C)
@@ -324,7 +324,7 @@ def Haversine():
         print(x[0] + ' se encuentra a ' + str(dist) + 'km')
         apilar(P, [dist, x[0], x[1]])
         arribo(Caux, [x[1], x[0], dist])
-    print('')
+    print()
     P = ordenar_pila(P)
     c1 = desapilar(P)
     c2 = desapilar(P)
@@ -345,10 +345,11 @@ def Haversine():
     while not cola_vacia(Caux):
         dato = atencion(Caux)
         if dato[0] > cont:
-            cont = dato
-    print('')
-    print(cont[1], 'posee la mayor flota(', cont[0], ')')
-    print('Se encuentra a:', cont[2], 'km')
+            cont = dato[0]
+            info = dato
+    print()
+    print(info[1], 'posee la mayor flota(' + str(info[0]) + ')')
+    print('Se encuentra a:', info[2], 'km')
 
 
 # EJ 16
@@ -362,7 +363,7 @@ def procesador():
     print('ID | Tiempo de ejecucion')
     while not cola_vacia(C):
         dato = atencion(C)
-        print('')
+        print()
         print('Ejecutando: ' + str(dato))
         if dato[1] < 4.5:
             sleep(dato[1])
@@ -372,7 +373,7 @@ def procesador():
             print('El dato ha sido devuelto a la cola con el tiempo restante de ejecucion')
             dato[1] = dato[1] - 4.5
             arribo(C, dato)
-            print('')
+            print()
             while True:
                 try:
                     print('Presione 1 si desea ingresar un nuevo proceso')

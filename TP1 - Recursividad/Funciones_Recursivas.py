@@ -49,7 +49,7 @@ def serie(n):
     if n == 1:
         return 1
     else:
-        return(1 + serie(1/n+1))
+        return 1/n + serie(n-1)
 
 
 # EJ 7

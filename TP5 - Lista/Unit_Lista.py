@@ -13,19 +13,19 @@ L1 = Lista()
 listaint(L1, 20)
 print('Lista de numeros enteros')
 barrido_lista(L1)
-print('')
+print()
 
 L2 = Lista()
 listaint(L2, 20)
 print('Lista de numeros enteros')
 barrido_lista(L2)
-print('')
+print()
 
 LS = Lista()
 listastring(LS, 20)
 print('Lista de letras')
 barrido_lista(LS)
-print('')
+print()
 
 
 # EJ 1
@@ -630,12 +630,14 @@ def pokemon():
         if aux.info.t_ganados > mg:
             mg = aux.info.t_ganados
             mas_ganador = aux.info.entrenador
-        sublista = aux.sublista.inicio
-        while sublista is not None:
-            if sublista.info.nivel > mn:
-                mn = sublista.info.nivel
-                mayor_nivel = sublista.info.pokemon
-            sublista = sublista.sig
+        buscado = busqueda_lista(aux.info.entrenador, mas_ganador, 'entrenador')
+        if buscado is not None:
+            sublista = aux.sublista.inicio
+            while sublista is not None:
+                if sublista.info.nivel > mn:
+                    mn = sublista.info.nivel
+                    mayor_nivel = sublista.info.pokemon
+                sublista = sublista.sig
         aux = aux.sig
     print('El entrenador mas ganador es', mas_ganador, 'con', mg, 'torneos')
     print('Su pokemon de mayor nivel es', mayor_nivel, 'con nivel', mn)
@@ -1352,7 +1354,7 @@ def lista_peliculas():
 # spotify()
 # saga_starwars()
 # anteultimo(L1)
-# pokemon()
+pokemon()
 # proyecto_software()
 # aeropuerto_creta()
 # github()

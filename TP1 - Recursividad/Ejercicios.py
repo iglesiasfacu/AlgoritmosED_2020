@@ -6,7 +6,7 @@ from Funciones_Recursivas import naves_rebeldes, barrido_laberinto, hanoi
 from Funciones_Recursivas import sucesion, sucesion2, barrido_sucesion
 
 print('TP1 - RECURSIVIDAD')
-print('')
+print()
 
 # Declaraciones para ejercicios
 vector = [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -24,103 +24,103 @@ cajanegra = [['Coordenada: 45.54.32.86.04', 'Arma: Torpedo', 'Derribado'],
 
 print('Ejercicio 1')
 print(fibonacci(10))
-print('')
+print()
 
 print('Ejercicio 2')
 print(suma(5))
-print('')
+print()
 
 print('Ejercicio 3')
 print(prod(5, 5))
-print('')
+print()
 
 print('Ejercicio 4')
 print(potencia(3, 3))
-print('')
+print()
 
 print('Ejercicio 5')
 print(invertir_cadena('python'))
-print('')
+print()
 
 print('Ejercicio 6')
-print(serie(5))
-print('')
+print(round(serie(5), 2))
+print()
 
 print('Ejercicio 7')
 print(binario(5))
-print('')
+print()
 
 print('Ejercicio 8')
 print(log(4, 2))
-print('')
+print()
 
 print('Ejercicio 9')
 print(contador(12345))
-print('')
+print()
 
 print('Ejercicio 10')
 print(invertir_num(912))
-print('')
+print()
 
 print('Ejercicio 11')
 print(mcd(40, 80))
-print('')
+print()
 
 print('Ejercicio 12')
 print(mcm(4, 8))
-print('')
+print()
 
 print('Ejercicio 13')
 print(suma_digitos(912))
-print('')
+print()
 
 print('Ejercicio 14')
 print(raiz(25))
-print('')
+print()
 
 print('Ejercicio 15')
 print(suc_geo(5))
-print('')
+print()
 
 print('Ejercicio 16')
 vector_inverso(vector, 8)
-print('')
+print()
 
 print('Ejercicio 17')
 print('Matriz:')
 print(barrido_matriz(matriz))
-print('')
+print()
 
 print('Ejercicio 18')
-print(sucesion(10))
-print('')
+print(round(sucesion(9), 2))
+print()
 
 print('Ejercicio 19')
-print(bsecuencial(vector, 0, 5))
-print('')
+print('Posición:', bsecuencial(vector, 0, 5))
+print()
 
 print('Ejercicio 20')
-print(bbin(vector, 0, 8, 5))
-print('')
+print('Posición:', bbin(vector, 0, 8, 8))
+print()
 
 print('Ejercicio 21')
 print('Se derrribaron ' + str(naves_rebeldes(cajanegra)) + ' naves rebeldes')
-print('')
+print()
 
 print('Ejercicio 22')
 print('Laberinto')
 print(barrido_laberinto(laberinto))
-print('')
+print()
 
 print('Ejercicio 23')
 hanoi(5, '1', '2', '3')
-print('')
+print()
 
 print('Ejercicio 24')
 barrido_sucesion()
-print('')
+print()
 
 
 print('Ejercicio 25')
 print(sucesion2(5))
-print('')
+print()
