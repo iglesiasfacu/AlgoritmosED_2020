@@ -29,8 +29,8 @@ def pieza(clave):
 
 
 # Se puede ingresar movimientos en un rango de 0 a n
-for z in range(0, 20):
-    clave = input('Ingrese cantidad de movimientos: ')
+for z in range(5):
+    clave = int(input('Ingrese cantidad de movimientos: '))
     movfinal = pieza(clave)
-    print('Con ' + str(clave) + ' movimientos podemos encontrar ' + str(movfinal) + ' posibilidades validas.')
-    print('')
+    print('Con', clave, 'movimientos podemos encontrar', movfinal, 'posibilidades validas.')
+    print()

@@ -4,9 +4,10 @@ from TDA_Hash import hash_division, hash_diccionario, bernstein
 from TDA_Hash import barrido_ta, barrido_tc
 from TDA_Hash import hash_division_guiatel, hash_division_catedra, bernstein_contactos
 from TDA_Hash import bernstein_troopers, hash_division_troopers, bernstein_star_wars
-from TDA_Hash import bernstein_pokemones
+from TDA_Hash import bernstein_pokemones, bernstein_palabra
 from TDA_Lista import barrido_lista
 from random import randint, choice
+from math import sqrt
 
 
 print('TP6 - HASH')
@@ -90,16 +91,16 @@ def catedras_universidad():
     tabla = crear_tabla(25)
     modalidad = ['Anual', 'Cuatrimestral']
     profe = ['Ing. Rodríguez', 'Prof. Gómez', 'Lic. García', 'Dr. Nuñez']
-    datos = Catedras(randint(1, 1000), 'Algorimtos y Estr. de Datos', choice(modalidad), randint(4, 8), choice(profe))
-    agregar_tc(tabla, hash_division_catedra, datos)
-    datos = Catedras(randint(1, 1000), 'Base de Datos', choice(modalidad), randint(4, 8), choice(profe))
-    agregar_tc(tabla, hash_division_catedra, datos)
-    datos = Catedras(randint(1, 1000), 'Prog. Orientada a Objetos', choice(modalidad), randint(4, 8), choice(profe))
-    agregar_tc(tabla, hash_division_catedra, datos)
-    datos = Catedras(randint(1, 1000), 'Diseño UX/UI', choice(modalidad), randint(4, 8), choice(profe))
-    agregar_tc(tabla, hash_division_catedra, datos)
-    datos = Catedras(randint(1, 1000), 'Analisis Matemático', choice(modalidad), randint(4, 8), choice(profe))
-    agregar_tc(tabla, hash_division_catedra, datos)
+    catedra = Catedras(randint(1, 1000), 'Algorimtos y Estr. de Datos', choice(modalidad), randint(4, 8), choice(profe))
+    agregar_tc(tabla, hash_division_catedra, catedra)
+    catedra = Catedras(randint(1, 1000), 'Base de Datos', choice(modalidad), randint(4, 8), choice(profe))
+    agregar_tc(tabla, hash_division_catedra, catedra)
+    catedra = Catedras(randint(1, 1000), 'Prog. Orientada a Objetos', choice(modalidad), randint(4, 8), choice(profe))
+    agregar_tc(tabla, hash_division_catedra, catedra)
+    catedra = Catedras(randint(1, 1000), 'Diseño UX/UI', choice(modalidad), randint(4, 8), choice(profe))
+    agregar_tc(tabla, hash_division_catedra, catedra)
+    catedra = Catedras(randint(1, 1000), 'Analisis Matemático', choice(modalidad), randint(4, 8), choice(profe))
+    agregar_tc(tabla, hash_division_catedra, catedra)
     print('CODIGO | CATEDRA | MODALIDAD | CANT. HORAS | DOCENTE')
     barrido_tc(tabla)
 
@@ -115,19 +116,39 @@ class Personaje():
 
 def personajes_sw():
     tabla = crear_tabla(20)
-    dato_sw = Personaje('Han Solo')
-    agregar_tc(tabla, bernstein_star_wars, dato_sw)
-    dato_sw = Personaje('Darth Vader')
-    agregar_tc(tabla, bernstein_star_wars, dato_sw)
-    dato_sw = Personaje('Jar Jar Binks')
-    agregar_tc(tabla, bernstein_star_wars, dato_sw)
-    dato_sw = Personaje('Yoda')
-    agregar_tc(tabla, bernstein_star_wars, dato_sw)
-    dato_sw = Personaje('Emperador Palpatine')
-    agregar_tc(tabla, bernstein_star_wars, dato_sw)
-    print('PERSONAJES DE STAR WARS')
+    personajes = ['Darth Vader', 'Luke Skywalker', 'Chewbacca', 'Yoda', 'R2D2', 'Jabba el Hutt',
+                  'Obi-Wan Keobi', 'Han Solo', 'C3PO', 'Leia Organa', 'Rey', 'Poe Dameron',
+                  'Finn', 'Lando Calrissian', 'Jabba el Hutt', 'Boba Fett', 'Jawa', 'Darth Maul',
+                  'Anakin Skywalker', 'Bobba Fett', 'Jar Jar Binks', 'Darth Sidious', 'Kylo Ren',
+                  'Obi-Wan Kenobi', 'Greddo', 'Wilhuff Tarkin', 'Owen Lars', 'Breha Organa']
+    pos = 0
+    for i in range(0, len(personajes)):
+        nom = personajes[pos]
+        dato_sw = Personaje(nom)
+        agregar_tc(tabla, bernstein_star_wars, dato_sw)
+        pos += 1
+    print('Tabla de personajes de Star Wars con', len(tabla), 'posiciones')
     barrido_tc(tabla)
 
+    # porcentaje de personajes cargados
+    porc_tabla = (cantidad_tc(tabla)*100)/len(tabla)
+    print('Porcentaje usado de la tabla', porc_tabla)
+    print()
+
+    if porc_tabla > 75:
+        print('El factor de carga de la tabla supero el 75%. Haciendo rehashing...')
+        nueva_tabla = crear_tabla(len(tabla)*2)
+        for dato in tabla:
+            if dato is not None:
+                agregar_tc(nueva_tabla, bernstein_star_wars, dato)
+        print('Nueva tabla con', len(nueva_tabla), 'posiciones')
+        barrido_tc(nueva_tabla)
+        porc_nueva_tabla = (cantidad_tc(nueva_tabla)*100)/len(nueva_tabla)
+        print('Porcentaje usado de la nueva tabla', porc_nueva_tabla)
+    else:
+        print('El porcentaje de la tabla es menor a 75%')
+        
+    
 
 # EJ 5
 class Contacto():
@@ -220,37 +241,206 @@ class Pokemon():
 
 
 def tabla_pokemon():
-    tabla_principal = crear_tabla(20)
-    tabla_secundaria = crear_tabla(20)
-    tipo = ['Normal', 'Volador', 'Veneno', 'Tierra', 'Roca', 'Bicho',  'Agua',
-            'Fantasma', 'Acero', 'Fuego', 'Planta', 'Electrico', 'Psiquico']
-    pokemon = Pokemon(randint(1, 500), 'Alfa', choice(tipo), randint(1, 20))
-    agregar_tc(tabla_principal, bernstein_pokemones, pokemon)
-    pokemon = Pokemon(randint(1, 500), 'Beta', choice(tipo), randint(1, 20))
-    agregar_tc(tabla_principal, bernstein_pokemones, pokemon)
-    pokemon = Pokemon(randint(1, 500), 'Gama', choice(tipo), randint(1, 20))
-    agregar_tc(tabla_principal, bernstein_pokemones, pokemon)
-    pokemon = Pokemon(randint(1, 500), 'Epsilon', choice(tipo), randint(1, 20))
-    agregar_tc(tabla_principal, bernstein_pokemones, pokemon)
-    pokemon = Pokemon(randint(1, 500), 'Lambda', choice(tipo), randint(1, 20))
-    agregar_tc(tabla_principal, bernstein_pokemones, pokemon)
+    tabla = crear_tabla(50)
+    nombres = ['Bulbasaur', 'Charmander', 'Squirtle', 'Pikachu', 'Spearow',
+               'Dugtrio', 'Primeape', 'Terrakion', 'Tyrantrum', 'Golbat']
+    tipos = ['Planta', 'Fuego', 'Agua', 'Eléctrico', 'Volador', 
+             'Tierra',  'Lucha', 'Roca', 'Dragón', 'Veneno']
+    pos = 0
+    for i in range(len(nombres)):
+        nom = nombres[pos]
+        tip = tipos[pos]
+        pokemon = Pokemon(randint(1, 999), nom, tip, randint(1, 50))
+        agregar_tc(tabla, bernstein_pokemones, pokemon)
+        pos += 1
     print('NUMERO | NOMBRE | TIPO | NIVEL')
-    barrido_tc(tabla_principal)
+    barrido_tc(tabla)
 
 
 # EJ 8
 def alianza_rebelde():
     pass
 
+    def encriptar(oracion):
+        clave = ""
+        for letra in oracion:
+            parte1 = str(ord(letra)*37)
+            parte2 = hex(ord(letra)*2)
+            clave += parte1[0] + parte2[1] + parte2[3] + parte1[1] + parte1[2] + parte2[0] + parte1[3] + parte2[2]
+        return clave
+
+    def desencriptar(clave):
+        oracion = ""
+        while len(clave) > 0:
+            caracter = ""
+            caracter += clave[0] + clave[3] + clave[4] + clave[6]
+            clave = clave[8:]
+            caracter = int(caracter)
+            caracter = int(caracter/37)
+            caracter = chr(caracter)
+            oracion += caracter
+        return oracion
+    msj = '¡Armani! El taco, no. hace la personal y se va. Se va. Se va Martínez para el gol, y va el tercero y va el tercero y gol de River, gol de River, gol de Riverrrr'
+    print('Mensaje a encripar:')
+    print(msj)
+    print()
+    enpr = encriptar(msj)
+    print('Mensaje encriptado:')
+    print(enpr)
+    print()
+    dnpr = desencriptar(enpr)
+    print('Mensaje desencriptado:')
+    print(dnpr)
+
 
 # EJ 9
-def mensaje_cifrado():
-    pass
+def mensajes_cifrados():
+    tabla = crear_tabla(10)
+    tabla_aux = crear_tabla(10)
+
+    def desifrar(dato):
+        dic = {'#?&': '0','abc': '1','def':'2','ghi':'3','jkl':'4','mnñ':'5','opq':'6','rst':'7','uvw':'8','xyz':'9'}
+        cadena = ''
+        for i in range (0, len(dato), 3):
+            cadena += dic[dato[i:i+3]]
+        return chr(int(cadena))
+
+    def cifrar(dato):
+        valor = str(ord(dato))
+        valor_cirado = ['#?&','abc','def','ghi','jkl','mnñ','opq','rst','uvw','xyz']
+        cadena = ''
+        for num in valor:
+            numInt = int(num)
+            cadena += valor_cirado[numInt]
+        cadena += "%"
+        return cadena
+
+    a = 'El hombre adecuado en el sitio equivocad0 puede cambiar el rumbo del mundo. Despierte, Sr. Freeman. Despierte y mire a su alrededor.'
+    a_cifrado = ''
+
+    print('Mensaje a cifrar:')
+    print(a)
+    print()
+
+    # cifrando
+    for letra in a:
+        valor = buscar_ta(tabla, hash_diccionario, Palabra(letra, ''), 'palabra')
+        cifrado = ''
+        if valor is None:
+            cifrado = cifrar(letra)
+            palabra = Palabra(letra, cifrado)
+            agregar_ta(tabla, hash_diccionario, palabra, 'palabra')
+        else:
+            cifrado = valor.info.significado
+        a_cifrado += cifrado
+    print('Mensaje cifrado:')
+    print(a_cifrado)
+    print()
+
+    lista = a_cifrado.split('%')
+    lista.pop()
+
+    # desifrando
+    msj = ''
+    for letras in lista:
+        valor = buscar_ta(tabla_aux, bernstein_palabra, Palabra(letras, ''), 'palabra')
+        decifrado = ''
+        if valor is None:
+            decifrado = desifrar(letras)
+            palabra = Palabra(letras, decifrado)
+            agregar_ta(tabla_aux, bernstein_palabra, palabra, 'palabra')
+        else:
+            decifrado = valor.info.significado
+        msj += decifrado
+    print('Mensaje decifrado')
+    print(msj)
 
 
 # EJ 10
 def agencia_shield():
     pass
+
+    def hash_cadenas(string):
+        hash = 5381
+        for caracter in string:
+            hash = ((hash << 5) + hash) + ord(caracter)
+        return hash & 0xFFFFFFFF
+
+    def calculo_complemento(caracter):
+        if ord(caracter) <= 78:
+            return 79 + ord(caracter) - 32
+        else:
+            return 32 + ord(caracter) - 79
+
+    # a
+    def codifica4dig(caracter):
+        caracteres = ''
+        caracter_ascii = ord(caracter)
+        caracter_ascii *= 37
+        complemento = calculo_complemento(caracter)
+        caracter_ascii = str(caracter_ascii)
+        for digito in caracter_ascii:
+            digito = int(digito)
+            num = pow(digito, 2) + complemento
+            caracter = chr(int(num))
+            caracteres += caracter
+        caracteres += chr(complemento)
+        return caracteres
+
+    def codifica_segm(segmento):
+        num_cuatro_digitos = ''
+        pri_chr = segmento[:4]
+        ult_chr = segmento[4]
+        complemento = ord(ult_chr)
+        for elemento in pri_chr:
+            elemento = ord(elemento) - complemento
+            elemento = int(sqrt(elemento))
+            elemento = str(elemento)
+            num_cuatro_digitos += elemento
+        num_cuatro_digitos = int(num_cuatro_digitos)
+        chr_ascii = int(num_cuatro_digitos/37)
+        caracter = chr(chr_ascii)
+        return caracter
+
+    def decodificar(mensaje):
+        oracion = ''
+        i = 0
+        while i < len(mensaje):
+            segmento = mensaje[i:i+5]
+            indice = hash_cadenas(segmento) % len(tabla)
+            if (tabla[indice] is None):
+                caracter = codifica_segm(segmento)
+                tabla[indice] = caracter
+            else:
+                caracter = tabla[indice]
+            oracion += caracter
+            i += 5
+        return oracion
+
+    tabla = crear_tabla(240)
+
+    f = open('/home/iglesiasfacu/Facu Lic. en Sistemas/Algoritmos y Estructuras de Datos/TP6 - Hash/mensaje_1.txt', encoding='utf8')
+    msj_codificado = f.read()
+    f.close()
+    msj_decodificado = decodificar(msj_codificado)
+    print('Mensaje 1:')
+    print(msj_decodificado)
+    print()
+    
+    f = open('/home/iglesiasfacu/Facu Lic. en Sistemas/Algoritmos y Estructuras de Datos/TP6 - Hash/mensaje_2.txt', encoding='utf8')
+    msj_codificado = f.read()
+    f.close()
+    msj_decodificado = decodificar(msj_codificado)
+    print('Mensaje 2')
+    print(msj_decodificado)
+    print()
+
+    f = open('/home/iglesiasfacu/Facu Lic. en Sistemas/Algoritmos y Estructuras de Datos/TP6 - Hash/mensaje_3.txt', encoding='utf8')
+    msj_codificado = f.read()
+    f.close()
+    msj_decodificado = decodificar(msj_codificado)
+    print('Mensaje 3')
+    print(msj_decodificado)
 
 
 # diccionario()
@@ -260,3 +450,6 @@ def agencia_shield():
 # contactos_personas()
 # imperio_galactico()
 tabla_pokemon()
+# alianza_rebelde()
+# mensajes_cifrados()
+# agencia_shield()

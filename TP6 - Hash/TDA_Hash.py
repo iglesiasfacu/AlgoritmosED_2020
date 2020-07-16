@@ -24,7 +24,9 @@ def agregar_tc(tabla, hash, dato):
         if tabla[pos+1] is None:
             tabla[pos+1] = dato
         else:
-            print('hacer rehasing')
+            pass
+            # print('hacer rehashing')
+
 
 
 def agregar_ta(tabla, hash, dato, criterio=None):
@@ -117,6 +119,14 @@ def barrido_tc(tabla):
             print(indice)
 
 
+def rehasing(tabla, hash):
+    nueva_tabla = crear_tabla(len(tabla)*2)
+    for dato in tabla:
+        if dato is not None:
+            agregar_tc(nueva_tabla, hash, dato)
+    return nueva_tabla
+
+
 def hash_division(clave, tabla):
     '''Funcion hash para tablas'''
     return clave % len(tabla)
@@ -175,5 +185,13 @@ def bernstein_pokemones(pokemon, tabla):
     '''Funcion hash de Bernstein para cadenas'''
     h = 0
     for caracter in pokemon.tipo:
+        h = h * 33 + ord(caracter)
+    return h % len(tabla)
+
+
+def bernstein_palabra(cadena, tabla):
+    '''Función hash de Bernstein para cadenas.'''
+    h = 0
+    for caracter in cadena.palabra:
         h = h * 33 + ord(caracter)
     return h % len(tabla)

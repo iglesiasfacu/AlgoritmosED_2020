@@ -1354,7 +1354,7 @@ def lista_peliculas():
 # spotify()
 # saga_starwars()
 # anteultimo(L1)
-pokemon()
+# pokemon()
 # proyecto_software()
 # aeropuerto_creta()
 # github()
