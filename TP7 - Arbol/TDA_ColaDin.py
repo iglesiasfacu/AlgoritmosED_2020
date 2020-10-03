@@ -1,6 +1,3 @@
-from random import randint, choice
-
-
 class Nodo_Cola():
     '''Crea una variable nodo cola'''
     def __init__(self):
@@ -48,31 +45,6 @@ def tamanio_cola(cola):
     return cola.tamanio
 
 
-def colaint(cola, cant):
-    '''Carga una cola con numeros enteros randomicos'''
-    for i in range(0, cant):
-        arribo(cola, randint(0, 10))
-
-
-def colaneg(cola, cant):
-    '''Carga una cola con numeros enteros positivos y negativos'''
-    for i in range(0, cant):
-        arribo(cola, randint(-10, 10))
-
-
-def colastring(cola, cant):
-    '''Carga una cola con letras randomicas'''
-    letras = 'abcdefghijklmñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ'
-    for i in range(0, cant):
-        arribo(cola, choice(letras))
-
-
-def colacaracteres(cola, cant):
-    '''Carga una cola con caracteres randomicos'''
-    for i in range(0, cant):
-        arribo(cola, chr(randint(33, 125)))
-
-
 def barrido_cola(cola):
     '''Muestra los elementos de una cola'''
     if tamanio_cola(cola) > 0:
@@ -94,17 +66,3 @@ def mover_final(cola):
         dato = atencion(cola)
         arribo(cola, dato)
         return dato
-
-
-def primos(num):
-    '''Devuelve True si el numero es primo'''
-    primo = True
-    if num <= 3:
-        return primo
-    else:
-        div = 2
-        while div < num:
-            if num % div == 0:
-                primo = False
-            div += 1
-        return primo
