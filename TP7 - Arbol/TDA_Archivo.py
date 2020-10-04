@@ -25,6 +25,7 @@ def modificar(archivo, pos, reg):
     '''Modifica un registro existente'''
     archivo[str(pos)] = reg
 
+
 '''
 arch = abrir('datos')
 escribir(arch, 32)

@@ -1,6 +1,6 @@
 from TDA_ColaDin import Cola, arribo, atencion, cola_vacia
 from TDA_Archivo import abrir, leer
-
+# No van: 2 3 7 10 13 18 22 24
 
 class Nodo_Arbol():
     def __init__(self, info, nrr=None):
