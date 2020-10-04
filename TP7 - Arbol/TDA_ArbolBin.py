@@ -287,6 +287,19 @@ def padre(raiz, buscado):
         preorden(raiz.der)
 
 
+def nodo_minimo(raiz):
+    '''Obtiene el nodo minimo de un arbol'''
+    if raiz.izq is not None:
+        raiz = nodo_minimo(raiz.izq)
+    return raiz
+
+
+def nodo_maximo(raiz):
+    '''Obtiene el nodo maximo de un arbol'''
+    if raiz.der is not None:
+        raiz = nodo_maximo(raiz.der)
+    return raiz
+
 
 
 '''
