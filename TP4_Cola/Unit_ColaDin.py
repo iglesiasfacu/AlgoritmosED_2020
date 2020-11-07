@@ -630,7 +630,7 @@ def marvel():
 
 # vocales(CS)
 # invertir_cola(CE)
-# palindromo()
+## palindromo()
 # eliminacion(CE)
 # invertir_pila_cola(PN)
 # ocurrencias(CE)

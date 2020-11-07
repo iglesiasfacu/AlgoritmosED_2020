@@ -1,4 +1,4 @@
-from TDA_ArbolBin import insertar_nodo, busqueda_arbol, por_nivel, hijo_der, hijo_izq
+from TDA_ArbolBin_AVL import insertar_nodo, busqueda_arbol, por_nivel, hijo_der, hijo_izq
 from random import randint
 
 print('EJERCICIO 4')

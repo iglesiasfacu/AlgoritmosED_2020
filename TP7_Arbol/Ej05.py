@@ -1,6 +1,6 @@
-from TDA_ArbolBin import insertar_nodo, inorden, postorden, generar_bosque
-from TDA_ArbolBin import inorden_marvel, inorden_villanos, superheroes_c
-from TDA_ArbolBin import busqueda_proximidad, cantidad_nodos
+from TDA_ArbolBin_AVL import insertar_nodo, inorden, postorden, generar_bosque
+from TDA_ArbolBin_AVL import inorden_marvel, inorden_villanos, superheroes_c
+from TDA_ArbolBin_AVL import busqueda_proximidad, cantidad_nodos
 
 print('EJERCICIO 5')
 print()

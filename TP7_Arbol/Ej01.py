@@ -1,5 +1,5 @@
-from TDA_ArbolBin import insertar_nodo, eliminar_nodo, busqueda_arbol, contar_ocurrencias, par_impar
-from TDA_ArbolBin import inorden, postorden, preorden, por_nivel
+from TDA_ArbolBin_AVL import insertar_nodo, eliminar_nodo, busqueda_arbol, contar_ocurrencias, par_impar
+from TDA_ArbolBin_AVL import inorden, postorden, preorden, por_nivel
 from random import randint
 
 print('EJERCICIO 1')

@@ -91,6 +91,7 @@ def arbol_vacio(raiz):
 
 
 def inorden(raiz):
+    'Barrido de menor a mayor'
     if raiz is not None:
         inorden(raiz.izq)
         print(raiz.info)
@@ -105,6 +106,7 @@ def postorden(raiz):
 
 
 def preorden(raiz):
+    'Barrido que muestra la raiz en primer lugar'
     if raiz is not None:
         print(raiz.info)
         preorden(raiz.izq)
@@ -158,12 +160,23 @@ def generar_bosque(arbol, arbol_superheroes, arbol_villanos):
     return arbol_superheroes, arbol_villanos
 
 
-def cantidad_nodos(arbol, cont=0):
+def cantidad_nodos(raiz, cont=0):
     'Devuelve la cantidad de nodos de un arbol'
-    if arbol is not None:
-        cont = cantidad_nodos(arbol.izq, cont)
+    if raiz is not None:
+        cont = cantidad_nodos(raiz.izq, cont)
         cont += 1
-        cont = cantidad_nodos(arbol.der, cont)
+        cont = cantidad_nodos(raiz.der, cont)
+    return cont
+
+
+def cantidad_hojas(raiz, cont=0):
+    'Devuelve la cantidad de hojas de un arbol'
+    if raiz is not None:
+        if raiz.izq is None and raiz.der is None:
+            cont += 1
+            print(raiz.info, 'es una hoja')
+        cont = cantidad_hojas(raiz.izq, cont)
+        cont = cantidad_hojas(raiz.der, cont)
     return cont
 
 
@@ -183,7 +196,7 @@ def actualizar_altura(raiz):
 
 
 def rotar_simple(raiz, control):
-    '''Realiza una rotación simple de nodos a la derecha o a la izquierda'''
+    '''Realiza una rotacion simple de nodos a la derecha o a la izquierda'''
     if control:
         aux = raiz.izq
         raiz.izq = aux.der
@@ -199,7 +212,7 @@ def rotar_simple(raiz, control):
 
 
 def rotar_doble(raiz, control):
-    '''Realiza una rotación doble de nodos a la derecha o a la izquierda'''
+    '''Realiza una rotacion doble de nodos a la derecha o a la izquierda'''
     if control:
         raiz.izq = rotar_simple(raiz.izq, False)
         raiz = rotar_simple(raiz, True)
@@ -210,7 +223,7 @@ def rotar_doble(raiz, control):
 
 
 def balancear(raiz):
-    '''Determina que rotación hay que hacer para balancear el árbol'''
+    '''Determina que rotacion hay que hacer para balancear el arbol'''
     if raiz is not None:
         if altura(raiz.izq)-altura(raiz.der) == 2:
             if altura(raiz.izq.izq) >= altura(raiz.izq.der):
@@ -262,13 +275,49 @@ def contar_ocurrencias(raiz, buscado, cantidad):
     return cantidad
 
 
+def inorden_nombrank(raiz, archivo):
+    if raiz is not None:
+        inorden_nombrank(raiz.izq, archivo)
+        jedi = leer(archivo, raiz.nrr)
+        if jedi[1]:
+            print(raiz.info,'-', jedi[1])
+        inorden_nombrank(raiz.der, archivo)
+
+
+def inorden_jedimaster(raiz, archivo):
+    if raiz is not None:
+        inorden_jedimaster(raiz.izq, archivo)
+        jedi = leer(archivo, raiz.nrr)
+        if jedi[1].find('jedi master') > -1:
+            print(raiz.info,'-', jedi[1])
+        inorden_jedimaster(raiz.der, archivo)
+
+
 def inorden_lightsaber(raiz, archivo):
     if raiz is not None:
         inorden_lightsaber(raiz.izq, archivo)
         jedi = leer(archivo, raiz.nrr)
         if jedi[4].find('green') > -1:
-            print(raiz.info, jedi[4])
+            print(raiz.info,'-', jedi[4])
         inorden_lightsaber(raiz.der, archivo)
+
+
+def inorden_especie(raiz, archivo):
+    if raiz is not None:
+        inorden_especie(raiz.izq, archivo)
+        jedi = leer(archivo, raiz.nrr)
+        if jedi[2].find('togruta') > -1 or jedi[2].find('cerean') > -1:
+            print(raiz.info,'-', jedi[2])
+        inorden_especie(raiz.der, archivo)
+
+
+def inorden_ayguion(raiz, archivo):
+    if raiz is not None:
+        inorden_ayguion(raiz.izq, archivo)
+        jedi = leer(archivo, raiz.nrr)
+        if jedi[0][0].find('a') > -1 or jedi[0].find('-') > -1:
+            print(raiz.info,'-', jedi[2])
+        inorden_ayguion(raiz.der, archivo)
 
 
 def inorden_name(raiz, archivo, jedis):
@@ -279,10 +328,20 @@ def inorden_name(raiz, archivo, jedis):
         inorden_name(raiz.der, archivo, jedis)
 
 
+def inorden_personajesw(raiz, archivo):
+    if raiz is not None:
+        inorden_personajesw(raiz.izq, archivo)
+        personaje = leer(archivo, raiz.nrr)
+        if personaje[1] and personaje[2] and personaje[3]:
+            print(raiz.info,'-', personaje[1], personaje[2], personaje[3])
+        inorden_personajesw(raiz.der, archivo)
+
+
 def padre(raiz, buscado):
+    '''Determina el padre de un nodo'''
     if raiz is not None:
         if raiz.der is not None and raiz.der.info == buscado or raiz.izq is not None and raiz.izq.info == buscado:
-            print('el padre de buscado es', raiz.info)
+            print('El padre de buscado es', raiz.info)
         preorden(raiz.izq)
         preorden(raiz.der)
 
@@ -300,6 +359,44 @@ def nodo_maximo(raiz):
         raiz = nodo_maximo(raiz.der)
     return raiz
 
+
+def cortar_por_nivel(raiz, bosque):
+    cola = Cola()
+    arribo(cola, raiz)
+    while not cola_vacia(cola):
+        nodo = atencion(cola)
+        if altura(nodo) == 7:
+            bosque.append(nodo.izq)
+            bosque.append(nodo.der)
+        if nodo.izq is not None:
+            arribo(cola, nodo.izq)
+        if nodo.der is not None:
+            arribo(cola, nodo.der)
+
+
+def contar_nodos(raiz, cantidad):
+    if raiz is not None:
+        contar_nodos(raiz.izq, cantidad)
+        contar_nodos(raiz.der, cantidad)
+        cantidad[0] += 1
+
+
+def inorden_altura(raiz, archivo):
+    if raiz is not None:
+        inorden_altura(raiz.izq, archivo)
+        sw = leer(archivo, raiz.nrr)
+        if sw.altura >= 1:
+            print(raiz.info,'-', sw.altura)
+        inorden_altura(raiz.der, archivo)
+
+
+def inorden_peso(raiz, archivo):
+    if raiz is not None:
+        inorden_peso(raiz.izq, archivo)
+        sw = leer(archivo, raiz.nrr)
+        if sw.peso <= 75:
+            print(raiz.info,'-', sw.peso)
+        inorden_peso(raiz.der, archivo)
 
 
 '''

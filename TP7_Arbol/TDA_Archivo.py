@@ -16,7 +16,7 @@ def leer(archivo, pos):
     return archivo[str(pos)]
 
 
-def escribir(archivo, reg):
+def guardar(archivo, reg):
     '''Guarda un nuevo registro'''
     archivo[str(len(archivo))] = reg
 
@@ -28,8 +28,8 @@ def modificar(archivo, pos, reg):
 
 '''
 arch = abrir('datos')
-escribir(arch, 32)
-escribir(arch, 99)
+guardar(arch, 32)
+guardar(arch, 99)
 for i in range(0, len(arch)):
     print(leer(arch, i))
 

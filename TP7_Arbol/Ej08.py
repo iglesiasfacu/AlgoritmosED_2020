@@ -1,4 +1,4 @@
-from TDA_ArbolBin import insertar_nodo, inorden, nodo_minimo, nodo_maximo
+from TDA_ArbolBin_AVL import insertar_nodo, inorden, nodo_minimo, nodo_maximo
 from random import randint
 
 print('EJERCICIO 8')
