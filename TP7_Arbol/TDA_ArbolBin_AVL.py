@@ -3,12 +3,14 @@ from TDA_Archivo import abrir, leer
 # No van: 2 3 7 10 13 18 22 24
 
 class Nodo_Arbol():
-    def __init__(self, info, nrr=None):
+    def __init__(self, info, nrr=None, campo=None, umbral=None):
         self.info = info
         self.izq = None
         self.der = None
         self.nrr = nrr
         self.altura = 0
+        self.campo = campo
+        self.umbral = umbral
 
 class Nodo_ArbolHuffman(): 
     def __init__(self, info, valor):
@@ -29,6 +31,17 @@ def insertar_nodo(raiz, dato, nrr=None):
             raiz.der = insertar_nodo(raiz.der, dato, nrr)
     raiz = balancear(raiz)
     actualizar_altura(raiz)
+    return raiz
+
+
+def insertar_nodo_clima(raiz, dato, campo=None, umbral=None):
+    if raiz is None:
+        raiz = Nodo_Arbol(dato, campo, umbral)
+    else:
+        if raiz.info > dato:
+            raiz.izq = insertar_nodo_clima(raiz.izq, dato, campo, umbral)
+        else:
+            raiz.der = insertar_nodo_clima(raiz.der, dato, campo, umbral)
     return raiz
 
 
@@ -253,7 +266,7 @@ def hijo_izq(arbol):
 
 
 def par_impar(raiz, cp, ci):
-    'Cuenta la cantidad de numeros pares e impares de un arbol'
+    '''Cuenta la cantidad de numeros pares e impares de un arbol'''
     if raiz is not None:
         if raiz.info % 2 == 0:
             cp += 1
@@ -399,16 +412,56 @@ def inorden_peso(raiz, archivo):
         inorden_peso(raiz.der, archivo)
 
 
-'''
-arbol = None
-arbol = insertar_nodo(arbol, 5)
-arbol = insertar_nodo(arbol, 3)
-arbol = insertar_nodo(arbol, 4)
-arbol = insertar_nodo(arbol, 7)
-arbol = insertar_nodo(arbol, 9)
-arbol = insertar_nodo(arbol, 0)
-arbol = insertar_nodo(arbol, 1)
-arbol = insertar_nodo(arbol, 6)
+def inorden_tipo(raiz, archivo):
+    if raiz is not None:
+        inorden_tipo(raiz.izq, archivo)
+        poke = leer(archivo, raiz.nrr)
+        if poke.tipo.find('agua') > -1 or poke.tipo.find('fuego') > -1 or poke.tipo.find('planta') > -1 or poke.tipo.find('electrico') > -1:
+            print(raiz.info,'es de tipo', poke.tipo)
+        inorden_tipo(raiz.der, archivo)
 
-arbol, dato = eliminar_nodo(arbol, 5)
-inorden(arbol)'''
+
+def inorden_poke_nombre(raiz, archivo):
+    if raiz is not None:
+        inorden_poke_nombre(raiz.izq, archivo)
+        poke = leer(archivo, raiz.nrr)
+        if poke.nombre:
+            print(raiz.info,'-', poke.numero)
+        inorden_poke_nombre(raiz.der, archivo)
+
+
+def inorden_poke_numero(raiz, archivo):
+    if raiz is not None:
+        inorden_poke_numero(raiz.izq, archivo)
+        poke = leer(archivo, raiz.nrr)
+        if poke.numero:
+            print(raiz.info,'-', poke.nombre)
+        inorden_poke_numero(raiz.der, archivo)
+
+
+def inorden_debilidad(raiz, archivo, clave):
+    if raiz is not None:
+        inorden_debilidad(raiz.izq, archivo, clave)
+        poke = leer(archivo, raiz.nrr)
+        if poke.debilidad.find(clave) > -1:
+            print(raiz.info, 'presenta debilidad al tipo', clave, '-', poke.debilidad)
+        inorden_debilidad(raiz.der, archivo, clave)
+
+
+def busqueda_proximidad_archivo(raiz, buscado, archivo):
+    if raiz is not None:
+        if raiz.info[0:len(buscado)] == buscado:
+            libro = leer(archivo, raiz.nrr)
+            print(libro.isbn, libro.cant, libro.titulo, libro.autores)
+        busqueda_proximidad_archivo(raiz.izq, buscado, archivo)
+        busqueda_proximidad_archivo(raiz.der, buscado, archivo)
+
+
+def busqueda_archivo(raiz, cantidad, archivo):
+    if raiz is not None:
+        libro = leer(archivo, raiz.nrr)
+        if libro.cant > cantidad:
+            print(libro.isbn, libro.cant, libro.titulo, libro.autores)
+        busqueda_archivo(raiz.izq, cantidad, archivo)
+        busqueda_archivo(raiz.der, cantidad, archivo)
+

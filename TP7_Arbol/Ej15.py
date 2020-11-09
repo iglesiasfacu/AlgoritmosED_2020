@@ -120,6 +120,7 @@ for i in range(len(datos)):
         print('Altura:', val.altura)
         print('Peso:', val.peso)
 print()
+
 for i in range(len(datos)):
     val = leer(file, i)
     if val.nombre == 'Boba Fett':
