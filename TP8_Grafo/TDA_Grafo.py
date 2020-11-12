@@ -1,6 +1,6 @@
 from TDA_PilaDin import Pila, apilar, pila_vacia, desapilar
 from TDA_Cola import Cola, cola_vacia, arribo, atencion
-from TDA_Heap import Heap, arribo_heap, atencion_heap, heap_vacio
+from TDA_Heap import Heap, arribo_heap, atencion_heap, busqueda_heap_aero, heap_vacio
 from TDA_Heap import cambiar_prioridad, busqueda_heap
 from math import inf
 
@@ -76,6 +76,23 @@ def insertar_vertice_aeropuerto(grafo, dato):
     grafo.tamanio += 1
 
 
+def insertar_vertice_red(grafo, dato):
+    '''Inserta un vértice al grafo'''
+    nodo = Nodo_Vertice(dato)
+    if grafo.inicio is None or grafo.inicio.info.nombre > dato.nombre:
+        nodo.sig = grafo.inicio
+        grafo.inicio = nodo
+    else:
+        ant = grafo.inicio
+        act = grafo.inicio.sig
+        while act is not None and act.info.nombre < nodo.info.nombre:
+            ant = act
+            act = act.sig
+        nodo.sig = act
+        ant.sig = nodo
+    grafo.tamanio += 1
+
+
 def insertar_arista(grafo, dato, origen, destino):
     '''Inserta una arista desde el vértice origen al destino'''
     agregrar_arista(origen.adyacentes, dato, destino.info)
@@ -108,6 +125,30 @@ def insertar_arista_viaje(grafo, dato, origen, destino):
 
 
 def agregrar_arista_viaje(origen, dato, destino):
+    '''Agrega la arista desde el vértice origen al destino'''
+    nodo = Nodo_Arista(dato, destino)
+    if origen.inicio is None or origen.inicio.destino > destino:
+        nodo.sig = origen.inicio
+        origen.inicio = nodo
+    else:
+        ant = origen.inicio
+        act = origen.inicio.sig
+        while act is not None and act.destino < nodo.destino:
+            ant = act
+            act = act.sig
+        nodo.sig = act
+        ant.sig = nodo
+    origen.tamanio += 1
+
+
+def insertar_arista_red(grafo, dato, origen, destino):
+    '''Inserta una arista desde el vértice origen al destino'''
+    agregrar_arista_red(origen.adyacentes, dato, destino.info.nombre)
+    if not grafo.dirigido:
+        agregrar_arista_red(destino.adyacentes, dato, origen.info.nombre)
+
+
+def agregrar_arista_red(origen, dato, destino):
     '''Agrega la arista desde el vértice origen al destino'''
     nodo = Nodo_Arista(dato, destino)
     if origen.inicio is None or origen.inicio.destino > destino:
@@ -172,7 +213,7 @@ def eliminar_arista(vertice, destino):
     return x
 
 
-def barrido_vertices(grafo):
+def barrido_grafo(grafo):
     '''Realiza un barrido de la grafo mostrando sus valores'''
     aux = grafo.inicio
     while aux is not None:
@@ -180,6 +221,25 @@ def barrido_vertices(grafo):
         print('adyacentes:')
         adyacentes(aux)
         print()
+        aux = aux.sig
+
+
+def barrido_grafo_red(grafo):
+    '''Realiza un barrido de la grafo mostrando sus valores'''
+    aux = grafo.inicio
+    while aux is not None:
+        print('vertice:', aux.info)
+        print('adyacentes:')
+        adyacentes_red(aux)
+        print()
+        aux = aux.sig
+
+
+def adyacentes_red(vertice):
+    '''Muestra los adyacentes del vertice'''
+    aux = vertice.adyacentes.inicio
+    while aux is not None:
+        print('Nombre:', aux.destino, ' - Peso:',aux.info)
         aux = aux.sig
 
 
@@ -192,6 +252,14 @@ def buscar_vertice(grafo, buscado):
 
 
 def buscar_vertice_aero(grafo, buscado):
+    '''Devuelve la direccion del elemento buscado'''
+    aux = grafo.inicio
+    while aux is not None and aux.info.nombre != buscado:
+        aux = aux.sig
+    return aux
+
+
+def buscar_vertice_red(grafo, buscado):
     '''Devuelve la direccion del elemento buscado'''
     aux = grafo.inicio
     while aux is not None and aux.info.nombre != buscado:
@@ -218,7 +286,7 @@ def grafo_vacio(grafo):
 
 
 def adyacentes(vertice):
-    '''Muestra los adyacents del vertice'''
+    '''Muestra los adyacentes del vertice'''
     aux = vertice.adyacentes.inicio
     while aux is not None:
         print(aux.destino, aux.info)
@@ -279,6 +347,7 @@ def barrido_amplitud(grafo, vertice):
         vertice = vertice.sig
 
 
+
 def dijkstra(grafo, origen, destino):
     '''Algoritmo de Dijkstra para hallar el camino mas corto'''
     no_visitados = Heap(tamanio_grafo(grafo))
@@ -299,6 +368,78 @@ def dijkstra(grafo, origen, destino):
             if no_visitados.vector[pos][0] > dato[0] + aux.info:
                 no_visitados.vector[pos][1][1] = dato[1][0].info
                 cambiar_prioridad(no_visitados, pos, dato[0] + aux.info)
+            aux = aux.sig
+    return camino
+
+
+def dijkstra_distancia(grafo, origen, destino):
+    '''Dijkstra para hallar el camino mas corto'''
+    no_visitados = Heap(tamanio_grafo(grafo))
+    camino = Pila()
+    aux = grafo.inicio
+    while aux is not None:
+        if aux.info.nombre == origen:
+            arribo_heap(no_visitados, [aux, None], 0)
+        else:
+            arribo_heap(no_visitados, [aux, None], inf)
+        aux = aux.sig
+    while not heap_vacio(no_visitados):
+        dato = atencion_heap(no_visitados)
+        apilar(camino, dato)
+        aux = dato[1][0].adyacentes.inicio
+        while aux is not None:
+            pos = busqueda_heap_aero(no_visitados, aux.destino)
+            if no_visitados.vector[pos][0] > dato[0] + aux.info.distancia:
+                no_visitados.vector[pos][1][1] = dato[1][0].info.nombre
+                cambiar_prioridad(no_visitados, pos, dato[0] + aux.info.distancia)
+            aux = aux.sig
+    return camino
+
+
+def dijkstra_duracion(grafo, origen, destino):
+    '''Dijkstra para hallar el camino de menos duracion'''
+    no_visitados = Heap(tamanio_grafo(grafo))
+    camino = Pila()
+    aux = grafo.inicio
+    while aux is not None:
+        if aux.info.nombre == origen:
+            arribo_heap(no_visitados, [aux, None], 0)
+        else:
+            arribo_heap(no_visitados, [aux, None], inf)
+        aux = aux.sig
+    while not heap_vacio(no_visitados):
+        dato = atencion_heap(no_visitados)
+        apilar(camino, dato)
+        aux = dato[1][0].adyacentes.inicio
+        while aux is not None:
+            pos = busqueda_heap_aero(no_visitados, aux.destino)
+            if no_visitados.vector[pos][0] > dato[0] + aux.info.duracion:
+                no_visitados.vector[pos][1][1] = dato[1][0].info.nombre
+                cambiar_prioridad(no_visitados, pos, dato[0] + aux.info.duracion)
+            aux = aux.sig
+    return camino
+
+
+def dijkstra_costo(grafo, origen, destino):
+    '''Dijkstra para hallar el camino de menor coste'''
+    no_visitados = Heap(tamanio_grafo(grafo))
+    camino = Pila()
+    aux = grafo.inicio
+    while aux is not None:
+        if aux.info.nombre == origen:
+            arribo_heap(no_visitados, [aux, None], 0)
+        else:
+            arribo_heap(no_visitados, [aux, None], inf)
+        aux = aux.sig
+    while not heap_vacio(no_visitados):
+        dato = atencion_heap(no_visitados)
+        apilar(camino, dato)
+        aux = dato[1][0].adyacentes.inicio
+        while aux is not None:
+            pos = busqueda_heap_aero(no_visitados, aux.destino)
+            if no_visitados.vector[pos][0] > dato[0] + aux.info.costo_pasaje:
+                no_visitados.vector[pos][1][1] = dato[1][0].info.nombre
+                cambiar_prioridad(no_visitados, pos, dato[0] + aux.info.costo_pasaje)
             aux = aux.sig
     return camino
 
@@ -358,6 +499,38 @@ def kruskal(grafo):
         else:
             bosque.append(origen)
     return bosque[0]
+
+
+def existe_paso(grafo, origen, destino):
+    '''Barrido en profundidad del grafo'''
+    resultado = False
+    if not origen.visitado:
+        origen.visitado = True
+        vadyacentes = origen.adyacentes.inicio
+        while vadyacentes is not None and not resultado:
+            adyacente = buscar_vertice(grafo, vadyacentes.destino)
+            if adyacente.info == destino.info:
+                return True
+            elif not adyacente.visitado:
+                resultado = existe_paso(grafo, adyacente, destino)
+            vadyacentes = vadyacentes.sig
+    return resultado
+
+
+def existe_paso_aero(grafo, origen, destino):
+    '''Barrido en profundidad del grafo'''
+    resultado = False
+    if not origen.visitado:
+        origen.visitado = True
+        vadyacentes = origen.adyacentes.inicio
+        while vadyacentes is not None and not resultado:
+            adyacente = buscar_vertice_aero(grafo, vadyacentes.destino)
+            if adyacente.info == destino.info:
+                return True
+            elif not adyacente.visitado:
+                resultado = existe_paso_aero(grafo, adyacente, destino)
+            vadyacentes = vadyacentes.sig
+    return resultado
 
 '''
 g = Grafo(False)
@@ -430,4 +603,5 @@ print()
 print('prim')
 bosque = kruskal(g)
 for i in range(0,len(bosque),2):
-    print(bosque[i], bosque[i+1])'''
+    print(bosque[i], bosque[i+1])
+'''

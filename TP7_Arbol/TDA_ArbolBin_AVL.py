@@ -3,14 +3,12 @@ from TDA_Archivo import abrir, leer
 # No van: 2 3 7 10 13 18 22 24
 
 class Nodo_Arbol():
-    def __init__(self, info, nrr=None, campo=None, umbral=None):
+    def __init__(self, info, nrr=None):
         self.info = info
         self.izq = None
         self.der = None
         self.nrr = nrr
         self.altura = 0
-        self.campo = campo
-        self.umbral = umbral
 
 class Nodo_ArbolHuffman(): 
     def __init__(self, info, valor):
@@ -31,17 +29,6 @@ def insertar_nodo(raiz, dato, nrr=None):
             raiz.der = insertar_nodo(raiz.der, dato, nrr)
     raiz = balancear(raiz)
     actualizar_altura(raiz)
-    return raiz
-
-
-def insertar_nodo_clima(raiz, dato, campo=None, umbral=None):
-    if raiz is None:
-        raiz = Nodo_Arbol(dato, campo, umbral)
-    else:
-        if raiz.info > dato:
-            raiz.izq = insertar_nodo_clima(raiz.izq, dato, campo, umbral)
-        else:
-            raiz.der = insertar_nodo_clima(raiz.der, dato, campo, umbral)
     return raiz
 
 

@@ -1,4 +1,102 @@
-from TDA_Grafo import Grafo, insertar_vertice, insertar_arista
+from TDA_Grafo import Grafo, buscar_vertice_red, insertar_vertice_red, insertar_arista_red
+from TDA_Grafo import barrido_grafo_red
 
 print('EJERCICIO 2')
 print
+
+class Red():
+    def __init__(self, nombre, tipo):
+        self.nombre = nombre
+        self.tipo = tipo
+    
+    def __str__(self):
+        return 'Nombre: ' + self.nombre + ' - Tipo: ' + self.tipo
+
+
+grafo = Grafo(False)
+
+# a
+dato = Red('Switch 1', 'PC')
+insertar_vertice_red(grafo, dato)
+dato = Red('Switch 2', 'PC')
+insertar_vertice_red(grafo, dato)
+dato = Red('Ubuntu', 'PC')
+insertar_vertice_red(grafo, dato)
+dato = Red('Mint', 'PC')
+insertar_vertice_red(grafo, dato)
+dato = Red('Manjaro', 'PC')
+insertar_vertice_red(grafo, dato)
+dato = Red('Fedora', 'PC')
+insertar_vertice_red(grafo, dato)
+dato = Red('Parrot', 'PC')
+insertar_vertice_red(grafo, dato)
+dato = Red('Debian', 'Notebook')
+insertar_vertice_red(grafo, dato)
+dato = Red('Red Hat', 'Notebook')
+insertar_vertice_red(grafo, dato)
+dato = Red('Arch', 'Notebook')
+insertar_vertice_red(grafo, dato)
+dato = Red('Router 1', 'Router')
+insertar_vertice_red(grafo, dato)
+dato = Red('Router 2', 'Router')
+insertar_vertice_red(grafo, dato)
+dato = Red('Router 3', 'Router')
+insertar_vertice_red(grafo, dato)
+dato = Red('Guaraní', 'Servidor')
+insertar_vertice_red(grafo, dato)
+dato = Red('MongoDB', 'Servidor')
+insertar_vertice_red(grafo, dato)
+dato = Red('Impresora', 'Impresora')
+insertar_vertice_red(grafo, dato)
+
+ori = buscar_vertice_red(grafo, 'Switch 1')
+des = buscar_vertice_red(grafo, 'Debian')
+insertar_arista_red(grafo, 1, ori, des)
+ori = buscar_vertice_red(grafo, 'Switch 1')
+des = buscar_vertice_red(grafo, 'Ubuntu')
+insertar_arista_red(grafo, 1, ori, des)
+ori = buscar_vertice_red(grafo, 'Switch 1')
+des = buscar_vertice_red(grafo, 'Impresora')
+insertar_arista_red(grafo, 1, ori, des)
+ori = buscar_vertice_red(grafo, 'Switch 1')
+des = buscar_vertice_red(grafo, 'Mint')
+insertar_arista_red(grafo, 1, ori, des)
+ori = buscar_vertice_red(grafo, 'Switch 1')
+des = buscar_vertice_red(grafo, 'Router 1')
+insertar_arista_red(grafo, 1, ori, des)
+ori = buscar_vertice_red(grafo, 'Switch 2')
+des = buscar_vertice_red(grafo, 'Manjaro')
+insertar_arista_red(grafo, 1, ori, des)
+ori = buscar_vertice_red(grafo, 'Switch 2')
+des = buscar_vertice_red(grafo, 'Fedora')
+insertar_arista_red(grafo, 1, ori, des)
+ori = buscar_vertice_red(grafo, 'Switch 2')
+des = buscar_vertice_red(grafo, 'Parrot')
+insertar_arista_red(grafo, 1, ori, des)
+ori = buscar_vertice_red(grafo, 'Switch 2')
+des = buscar_vertice_red(grafo, 'Router 3')
+insertar_arista_red(grafo, 1, ori, des)
+ori = buscar_vertice_red(grafo, 'Switch 2')
+des = buscar_vertice_red(grafo, 'Arch')
+insertar_arista_red(grafo, 1, ori, des)
+ori = buscar_vertice_red(grafo, 'Switch 2')
+des = buscar_vertice_red(grafo, 'MongoDB')
+insertar_arista_red(grafo, 1, ori, des)
+ori = buscar_vertice_red(grafo, 'Router 1')
+des = buscar_vertice_red(grafo, 'Router 2')
+insertar_arista_red(grafo, 1, ori, des)
+ori = buscar_vertice_red(grafo, 'Router 1')
+des = buscar_vertice_red(grafo, 'Router 3')
+insertar_arista_red(grafo, 1, ori, des)
+ori = buscar_vertice_red(grafo, 'Router 2')
+des = buscar_vertice_red(grafo, 'Router 3')
+insertar_arista_red(grafo, 1, ori, des)
+ori = buscar_vertice_red(grafo, 'Router 2')
+des = buscar_vertice_red(grafo, 'Guaraní')
+insertar_arista_red(grafo, 1, ori, des)
+ori = buscar_vertice_red(grafo, 'Router 2')
+des = buscar_vertice_red(grafo, 'Red Hat')
+insertar_arista_red(grafo, 1, ori, des)
+
+# b
+barrido_grafo_red(grafo)

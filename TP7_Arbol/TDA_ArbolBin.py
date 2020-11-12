@@ -8,7 +8,7 @@ class Nodo_Arbol():
         self.izq = None
         self.der = None
         self.nrr = nrr
-        self.altura = 0
+        self.altura = 0     
 
 class Nodo_ArbolHuffman(): 
     def __init__(self, info, valor):
@@ -16,6 +16,23 @@ class Nodo_ArbolHuffman():
         self.der = None
         self.info = info
         self.valor = valor
+
+class Nodo_Clima():
+    def __init__(self, info, campo=None, umbral=None):
+        self.info = info
+        self.izq = None
+        self.der = None
+        self.altura = 0
+        self.campo = campo
+        self.umbral = umbral 
+
+class Nodo_Greek():
+    def __init__(self, info, madre, descipcion=None):
+        self.izq = None
+        self.der = None
+        self.info = info
+        self.madre = madre
+        self.descripcion = descipcion
 
 
 def insertar_nodo(raiz, dato, nrr=None):
@@ -41,6 +58,29 @@ def insertar_nodo_morse(raiz, dato):
     return raiz
 
 
+def insertar_nodo_clima(raiz, dato, campo=None, umbral=None):
+    if raiz is None:
+        raiz = Nodo_Clima(dato, campo, umbral)
+    else:
+        if raiz.info[0] > dato[0]:
+            raiz.izq = insertar_nodo_clima(raiz.izq, dato, campo, umbral)
+        else:
+            raiz.der = insertar_nodo_clima(raiz.der, dato, campo, umbral)
+    return raiz
+
+
+def insertar_nario(padre, hijo):
+    if padre.izq is None:
+        #print('insertar hijo de', padre.info)
+        padre.izq = hijo
+    else:
+        aux = padre.izq
+        while aux.der is not None:
+            aux = aux.der
+        #print('insertar hno de', aux.info)
+        aux.der = hijo
+
+
 def busqueda_arbol(raiz, buscado):
     'Busca un elemento en un arbol'
     if raiz is not None:
@@ -59,6 +99,15 @@ def busqueda_proximidad(raiz, buscado):
             print('Se encontro:', raiz.info)
         busqueda_proximidad(raiz.izq, buscado)
         busqueda_proximidad(raiz.der, buscado)
+
+
+def busqueda_nario(raiz, buscado, pos):
+    if raiz is not None:
+        if raiz.info == buscado:
+            pos.append(raiz)
+            return
+        busqueda_nario(raiz.izq, buscado, pos)
+        busqueda_nario(raiz.der, buscado, pos)
 
 
 def reemplazar(raiz):
@@ -131,6 +180,37 @@ def por_nivel(raiz):
             arribo(cola, nodo.izq)
         if nodo.der is not None:
             arribo(cola, nodo.der)
+
+
+def por_nivel_meteorolgico(raiz):
+    cola = Cola()
+    arribo(cola, raiz)
+    while not cola_vacia(cola):
+        nodo = atencion(cola)
+        if nodo.campo is None or nodo.umbral is None:
+            print(nodo.info)
+        else:
+            print(nodo.info, nodo.campo, nodo.umbral)
+        if nodo.izq is not None:
+            arribo(cola, nodo.izq)
+        if nodo.der is not None:
+            arribo(cola, nodo.der)
+
+
+def por_nivel_nario(raiz):
+    cola = Cola()
+    arribo(cola, raiz)
+    while not cola_vacia(cola):
+        nodo = atencion(cola)
+        print(nodo.info)
+        if nodo.izq is not None:
+            arribo(cola, nodo.izq)
+        hno = nodo.der
+        while hno is not None:
+            print(hno.info)
+            if hno.izq is not None:
+                arribo(cola, hno.izq)
+            hno = hno.der
 
 
 def generar_bosque(arbol, arbol_superheroes, arbol_villanos):
@@ -240,6 +320,7 @@ def descifrar_morse(arbol, morse, mensaje):
         mensaje += x
         mensaje += ' '
     return mensaje
+
 
 
 '''
