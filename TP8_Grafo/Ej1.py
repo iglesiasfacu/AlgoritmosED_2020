@@ -106,7 +106,7 @@ print()
 camino_mas_corto = dijkstra_distancia(grafo, 'Argentina', 'Tailandia')
 fin = 'Tailandia'
 distancia = None
-print('---SALIDA---')
+print('---ARRIBO---')
 while not pila_vacia(camino_mas_corto):
     dato = desapilar(camino_mas_corto)
     if distancia is None and fin == dato[1][0].info.nombre:
@@ -114,7 +114,7 @@ while not pila_vacia(camino_mas_corto):
     if fin == dato[1][0].info.nombre:
         print(dato[1][0].info.nombre)
         fin = dato[1][1]
-print('---ARRIBO---')
+print('---SALIDA---')
 print('Distancia mas corta: ' + str(distancia) + 'km')
 print()
 
@@ -123,7 +123,7 @@ print()
 camino_mas_corto = dijkstra_duracion(grafo, 'Argentina', 'Tailandia')
 fin = 'Tailandia'
 duracion = None
-print('---SALIDA---')
+print('---ARRIBO---')
 while not pila_vacia(camino_mas_corto):
     dato = desapilar(camino_mas_corto)
     if duracion is None and fin == dato[1][0].info.nombre:
@@ -131,7 +131,7 @@ while not pila_vacia(camino_mas_corto):
     if fin == dato[1][0].info.nombre:
         print(dato[1][0].info.nombre)
         fin = dato[1][1]
-print('---ARRIBO---')
+print('---SALIDA---')
 print('Camino con menos duracion: ' + str(duracion) + 'hs.')
 print()
 
@@ -140,7 +140,7 @@ print()
 camino_mas_corto = dijkstra_costo(grafo, 'Argentina', 'Tailandia')
 fin = 'Tailandia'
 coste_pasaje = None
-print('---SALIDA---')
+print('---ARRIBO---')
 while not pila_vacia(camino_mas_corto):
     dato = desapilar(camino_mas_corto)
     if coste_pasaje is None and fin == dato[1][0].info.nombre:
@@ -148,7 +148,7 @@ while not pila_vacia(camino_mas_corto):
     if fin == dato[1][0].info.nombre:
         print(dato[1][0].info.nombre)
         fin = dato[1][1]
-print('---ARRIBO---')
+print('---SALIDA---')
 print('Camino mas barato: $' + str(coste_pasaje))
 print()
 

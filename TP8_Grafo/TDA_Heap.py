@@ -102,6 +102,15 @@ def busqueda_heap_aero(heap, buscado):
     return pos
 
 
+def busqueda_heap_red(heap, buscado):
+    '''Busca un elemento en el montículo'''
+    pos = -1
+    for i in range(len(heap.vector)):
+        if heap.vector[i][1][0].info.nombre == buscado:
+            pos = i
+    return pos
+
+
 # Cola de prioridad
 def arribo_heap(heap, dato, prioridad):
     '''Arriba el dato a la cola utilizando prioridad'''
