@@ -619,7 +619,28 @@ def prim_red(grafo):
     return bosque
 
 
-def prim_marav(grafo):
+def prim_arq(grafo):
+    '''Algoritmo de Prim para hallar el árbol de expansión mínimo'''
+    bosque = []
+    aristas = Heap(tamanio_grafo(grafo) ** 2)
+    adyac = buscar_vertice_maravilla(grafo, 'Chichén Itzá')
+    adyac = adyac.adyacentes.inicio
+    while adyac is not None:
+        arribo_heap(aristas, [grafo.inicio.info.nombre, adyac.destino], adyac.info)
+        adyac = adyac.sig
+    while len(bosque) // 2 < tamanio_grafo(grafo) and not heap_vacio(aristas):
+        dato = atencion_heap(aristas)
+        if len(bosque) == 0 or ((dato[1][0] not in bosque) ^ (dato[1][1] not in bosque)):
+            bosque += dato[1]
+            destino = buscar_vertice_maravilla(grafo, dato[1][1])
+            adyac = destino.adyacentes.inicio
+            while adyac is not None:
+                arribo_heap(aristas, [destino.info, adyac.destino], adyac.info)
+                adyac = adyac.sig
+    return bosque
+
+
+def prim_nat(grafo):
     '''Algoritmo de Prim para hallar el árbol de expansión mínimo'''
     bosque = []
     aristas = Heap(tamanio_grafo(grafo) ** 2)

@@ -1,9 +1,9 @@
 from TDA_Grafo import Grafo, insertar_vertice_maravilla, insertar_arista_maravilla
 from TDA_Grafo import buscar_vertice_maravilla, barrido_grafo_maravilla
-from TDA_Grafo import prim_marav, buscar_vertice_ubicacion
+from TDA_Grafo import prim_arq, prim_nat
 
 print('EJERCICIO 3')
-print
+print()
 
 class Maravilla():
     def __init__(self, nombre, ubicacion, tipo):
@@ -181,9 +181,15 @@ insertar_arista_maravilla(grafo, 1748, ori, des)
 print('BARRIDO MARAVILLAS')
 barrido_grafo_maravilla(grafo)
 
-# c - funciona solo para el grafo en general
-print('Arbol de expansión mínimo de las maravillas')
-bosque = prim_marav(grafo)
+# c
+print('Arbol de expansión mínimo de las maravillas Arquitectónicas')
+bosque = prim_arq(grafo)
+for i in range(0,len(bosque),2):
+    print(bosque[i], '|',bosque[i+1])
+print()
+
+print('Arbol de expansión mínimo de las maravillas Naturales')
+bosque = prim_nat(grafo)
 for i in range(0,len(bosque),2):
     print(bosque[i], '|',bosque[i+1])
 print()
@@ -200,9 +206,9 @@ while aux is not None:
         else:
             nat += 1
     aux = aux.sig
+print()
 
 # e
-print()
 if arq > 1:
     print(control, 'tiene más de una maravilla del tipo Arquitectónica')
 if nat > 1:
