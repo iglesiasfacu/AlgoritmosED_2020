@@ -12,7 +12,7 @@ class Red():
         self.tipo = tipo
     
     def __str__(self):
-        return 'Nombre: ' + self.nombre + ' - Tipo: ' + self.tipo
+        return self.nombre + ' | ' + self.tipo
 
 
 grafo = Grafo(False)
@@ -150,7 +150,7 @@ print('Algoritmo de Prim para encontrar el arbol de expansión mínimo')
 bosque = prim_red(grafo)
 
 for i in range(0,len(bosque),2):
-    print(bosque[i], bosque[i+1])
+    print(bosque[i], '|',bosque[i+1])
 print()
 
 
@@ -219,8 +219,28 @@ print()
 
 
 # g
-ori = buscar_vertice_red(grafo, 'Router 2')
+ori = buscar_vertice_red(grafo, 'Switch 1')
 x = eliminar_arista_red(grafo, ori, 'Impresora')
-print('se elimino:', x)
+ori = buscar_vertice_red(grafo, 'Impresora')
+x = eliminar_arista_red(grafo, ori, 'Switch 1')
+print('se elimino la arista de peso:', x)
 print()
-barrido_grafo_red(grafo)
+ori = buscar_vertice_red(grafo, 'Impresora')
+des = buscar_vertice_red(grafo, 'Router 2')
+insertar_arista_red(grafo, 22, ori, des)
+
+note = ['Red Hat', 'Debian', 'Arch']
+pos = 0
+for i in range(len(note)):
+    dato = note[pos]
+    print('Barrido profundidad:', dato)
+    ori = buscar_vertice_red(grafo, 'Red Hat')
+    barrido_profundidad_red(grafo, ori)
+    marcar_no_visitado(grafo)
+    print()
+    print('Barrido amplitud:', dato)
+    ori = buscar_vertice_red(grafo, 'Red Hat')
+    barrido_amplitud_red(grafo, ori)
+    marcar_no_visitado(grafo)
+    print()
+    pos += 1

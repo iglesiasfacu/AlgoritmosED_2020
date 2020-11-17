@@ -268,7 +268,7 @@ def barrido_grafo_red(grafo):
     '''Realiza un barrido de la grafo mostrando sus valores'''
     aux = grafo.inicio
     while aux is not None:
-        print('NOMBRE | TIPO')
+        print('         NOMBRE | TIPO')
         print('vertice:', aux.info)
         print('adyacentes:')
         adyacentes_red(aux)
@@ -280,7 +280,7 @@ def barrido_grafo_maravilla(grafo):
     '''Realiza un barrido de la grafo mostrando sus valores'''
     aux = grafo.inicio
     while aux is not None:
-        print('NOMBRE | UBICACION | TIPO')
+        print('        NOMBRE | UBICACION | TIPO')
         print('vertice:', aux.info)
         print('adyacentes:')
         adyacentes_marav(aux)
@@ -336,14 +336,6 @@ def buscar_vertice_maravilla(grafo, buscado):
     return aux
 
 
-def buscar_vertice_ubicacion(grafo, buscado):
-    '''Devuelve la direccion del elemento buscado'''
-    aux = grafo.inicio
-    while aux is not None and aux.info.ubicacion != buscado:
-        aux = aux.sig
-    return aux
-
-
 def buscar_arista(vertice, buscado):
     '''Devuelve la direccion del elemento buscado'''
     aux = vertice.adyacentes.inicio
@@ -366,7 +358,7 @@ def adyacentes(vertice):
     '''Muestra los adyacentes del vertice'''
     aux = vertice.adyacentes.inicio
     while aux is not None:
-        print(aux.destino, aux.info)
+        print(aux.destino, '-',aux.info)
         aux = aux.sig
 
 
@@ -611,27 +603,7 @@ def prim_red(grafo):
         dato = atencion_heap(aristas)
         if len(bosque) == 0 or ((dato[1][0] not in bosque) ^ (dato[1][1] not in bosque)):
             bosque += dato[1]
-            destino = buscar_vertice_maravilla(grafo, dato[1][1])
-            adyac = destino.adyacentes.inicio
-            while adyac is not None:
-                arribo_heap(aristas, [destino.info, adyac.destino], adyac.info)
-                adyac = adyac.sig
-    return bosque
-
-
-def prim_marav(grafo):
-    '''Algoritmo de Prim para hallar el árbol de expansión mínimo'''
-    bosque = []
-    aristas = Heap(tamanio_grafo(grafo) ** 2)
-    adyac = grafo.inicio.adyacentes.inicio
-    while adyac is not None:
-        arribo_heap(aristas, [grafo.inicio.info.nombre, adyac.destino], adyac.info)
-        adyac = adyac.sig
-    while len(bosque) // 2 < tamanio_grafo(grafo) and not heap_vacio(aristas):
-        dato = atencion_heap(aristas)
-        if len(bosque) == 0 or ((dato[1][0] not in bosque) ^ (dato[1][1] not in bosque)):
-            bosque += dato[1]
-            destino = buscar_vertice_maravilla(grafo, dato[1][1])
+            destino = buscar_vertice_red(grafo, dato[1][1])
             adyac = destino.adyacentes.inicio
             while adyac is not None:
                 arribo_heap(aristas, [destino.info, adyac.destino], adyac.info)

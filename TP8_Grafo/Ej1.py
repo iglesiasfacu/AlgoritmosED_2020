@@ -1,5 +1,5 @@
 from TDA_Grafo import Grafo, barrido_grafo, buscar_vertice_aero, dijkstra_distancia
-from TDA_Grafo import insertar_vertice_aeropuerto, insertar_arista_viaje
+from TDA_Grafo import insertar_vertice_aeropuerto, insertar_arista_viaje, prim_red
 from TDA_Grafo import dijkstra_duracion, dijkstra_costo, adyacentes, existe_paso_aero
 from TDA_PilaDin import desapilar, pila_vacia
 from random import randint, choice
@@ -164,10 +164,12 @@ else:
 print()
 
 print('v) Viajes a Grecia de manera indirecta')
-datos = ['Argentina', 'Alemania', 'Brasil', 'China', 'Estados Unidos', 'Francia', 'Japón', 'Jamaica', 'Tailandia']
-
-for pais in datos:
-    des = buscar_vertice_aero(grafo, pais)
+datos = ['Argentina', 'Alemania', 'Brasil', 'China', 'EEUU', 'Francia', 'Japón', 'Jamaica', 'Tailandia']
+pos = 0
+for i in range(len(datos)):
+    ori = buscar_vertice_aero(grafo, datos[pos])
+    des = buscar_vertice_aero(grafo, 'Grecia')
     if existe_paso_aero(grafo, ori, des):
-        print('Existe paso indirecto a Grecia desde:', pais)
+        print('Existe paso indirecto a Grecia desde:', datos[pos])
+    pos += 1
 
